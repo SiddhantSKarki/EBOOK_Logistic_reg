@@ -1,9 +1,11 @@
 import os
+from random import random
 import tarfile
 import urllib.request
 import certifi
 import pandas as pd
 import matplotlib.pyplot as plt 
+import numpy as np
 
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
@@ -26,6 +28,15 @@ fetching_housingdata(housing_url=HOUSING_URL, housing_path= HOUSING_PATH)
 def load_housing_data(housing_path=HOUSING_PATH):
     csv_path = os.path.join(housing_path, "housing.csv")
     return pd.read_csv(csv_path)
+
+def test_train_split(data, test_ratio):
+    random_indices = np.random.permutation(len(data))
+    split_index = (int) (len(random_indices) * test_ratio)
+    test_indices = random_indices[:split_index]
+    train_indices = random_indices[split_index:]
+    return data.iloc[test_indices], data.iloc[train_indices]
+    
+
 
 housing = load_housing_data(HOUSING_PATH)
 print(housing.head())
